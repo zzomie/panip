@@ -7,11 +7,29 @@ class DAO {
 	private $AVERAGEGOALS = "SELECT AVG(brgolova) FROM fudbaleri";
 
 	private $GETFUDBALER = "SELECT * FROM fudbaleri WHERE brojgolova>n";
+
+	private $FUDBALER = "SELECT * FROM fudbaleri where id=?";
 	
 	public function __construct()
 	{
 		$this->db = DB::createInstance();
 	}
+
+	public function getFubalerID($id)
+	{	
+		$statement = $this->db->prepare($this->FUDBALER);
+		$statement->bindValue(1, $id, PDO::PARAM_INT);	
+		$statement->execute();
+		// $result = $statement->fetchAll();
+		// return $result;
+		if($statement->fetch()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 
 	public function getFudbaler($n)
 	{	
